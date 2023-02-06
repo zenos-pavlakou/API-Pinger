@@ -1,0 +1,13 @@
+{
+    "require": {
+        "guzzlehttp/guzzle": "^7"
+    },
+    "config": {
+        "platform": {
+            "php": "7.4.21"
+        },
+        "platform-check": false
+    }
+
+
+}

@@ -2,7 +2,7 @@
 
   include "APIPinger.php";
 
-  $pinger = new APIPinger($allow_unknown_endpoints=true);
+  $pinger = new APIPinger();
 
   $pinger->disallow_unknown_endpoints(); //if an endpoint is not enlisted, then it is unknown.
   $pinger->allow_unknown_endpoints(); //now all endpoints can be pinged, even if not enlisted. Enabled by default.

@@ -5,8 +5,8 @@
 
   class APIPinger {
     
-    protected $endpoints_to_funcs;
-    public $allow_unknown_endpoints;
+    private $endpoints_to_funcs;
+    private $allow_unknown_endpoints;
 
     public function __construct() {
       $this->allow_unknown_endpoints = true;

@@ -25,7 +25,7 @@
     }
   );
 
-  //This will return the gender, name and email of the random user, as specified by the function closure.
+  //This will return the gender, name and email of the random user, as specified by the endpoint's function closure.
   $pinger->ping("https://randomuser.me/api");
 
   //This will return the data from the API response without applying a function closure. 

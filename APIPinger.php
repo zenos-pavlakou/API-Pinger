@@ -12,18 +12,14 @@
     }
 
     public final function enlist_endpoint(String $endpoint, callable $func=NULL) {
-      try {
-        if(!$func) {
-          $this->endpoints_to_funcs[$endpoint] = function($data) {
-            return $data;
-          };
-        } else {
-          $this->endpoints_to_funcs[$endpoint] = $func;
-        }
-        return true;
-      } catch(Exception $e) {
-        return false;
+      if(!$func) {
+        $this->endpoints_to_funcs[$endpoint] = function($data) {
+          return $data;
+        };
+      } else {
+        $this->endpoints_to_funcs[$endpoint] = $func;
       }
+      return true;
     }
 
     public final function unlist_endpoint(String $endpoint) {

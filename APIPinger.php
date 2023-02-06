@@ -5,7 +5,21 @@
 
   class APIPinger {
     
-    protected $endpoints_to_funcs = Array();
+    protected $endpoints_to_funcs;
+    public $allow_unknown_endpoints;
+
+    public function __construct() {
+      $this->allow_unknown_endpoints = true;
+      $this->endpoints_to_funcs = Array();
+    }
+
+    public function allow_unknown_endpoints() {
+      $this->allow_unknown_endpoints = true;
+    }
+
+    public function disallow_unknown_endpoints() {
+      $this->allow_unknown_endpoints = false;
+    }
 
     public final function get_endpoints() {
       return array_keys($this->endpoints_to_funcs);
@@ -29,7 +43,15 @@
     public final function ping($endpoint, $return_raw_data=false) {
       try {
         if(!isset($this->endpoints_to_funcs[$endpoint])) {
-          throw new UnknownEndpoint("$endpoint is not enlisted. To overcome this problem, use enlist_endpoint()");
+          if(!$this->allow_unknown_endpoints) {
+            
+            throw new UnknownEndpointException("$endpoint is not enlisted. To overcome this problem, use enlist_endpoint()");
+          } else {
+            
+            $this->enlist_endpoint($endpoint);
+            return $this->ping($endpoint);
+          }
+          
         } else {
           $ch = curl_init();
           curl_setopt($ch, CURLOPT_URL, $endpoint);
@@ -45,7 +67,7 @@
               return $this->endpoints_to_funcs[$endpoint]($data);
             }
           } else {
-            throw new InvalidStatusCode("Status code $status_code encountered for endpoint $endpoint");
+            throw new InvalidStatusCodeException("Status code $status_code encountered for endpoint $endpoint");
           }
         }
       } catch(Exception $e) {
